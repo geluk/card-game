@@ -1,18 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <h1>{{ message }}</h1>
+    <!-- <HelloWorld /> -->
+    <Hand :cards="game.hand" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
+import Hand from './components/Hand.vue';
+import Game from './game/game';
 
 export default Vue.extend({
   name: 'App',
+  props: {
+    message: String,
+    game: Game,
+  },
   components: {
-    HelloWorld,
+    // HelloWorld,
+    Hand,
   },
 });
 </script>
