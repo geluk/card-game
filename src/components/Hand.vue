@@ -2,7 +2,7 @@
   <div id="hand">
     <h2>Your hand</h2>
     <div id="hand-cards">
-      <Card v-for="card in cards" v-bind:key="card.cardId" v-bind:card="card" />
+      <Card v-for="card in cards" v-bind:key="card.uniqueId" v-bind:card="card" />
     </div>
   </div>
 </template>
@@ -10,6 +10,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Card from './Card.vue';
+import { Card as GameCard } from '../game/card';
 
 export default Vue.extend({
   name: 'Hand',

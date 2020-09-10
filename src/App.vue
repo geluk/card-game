@@ -2,6 +2,7 @@
   <div id="app">
     <h1>{{ message }}</h1>
     <!-- <HelloWorld /> -->
+    <Stack :cards="game.stack" />
     <Hand :cards="game.hand" />
   </div>
 </template>
@@ -10,6 +11,7 @@
 import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 import Hand from './components/Hand.vue';
+import Stack from './components/Stack.vue';
 import Game from './game/game';
 
 export default Vue.extend({
@@ -21,6 +23,7 @@ export default Vue.extend({
   components: {
     // HelloWorld,
     Hand,
+    Stack,
   },
 });
 </script>

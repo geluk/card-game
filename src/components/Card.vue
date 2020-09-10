@@ -1,9 +1,10 @@
 <template>
   <div class="card">
     <img :src="card.url" />
-    <!-- <p> Id: {{card.cardId }} </p>
-    <p> setId: {{card.setId }} </p>
-    <p> Url: {{card.url }} </p> -->
+    <!-- <p> cardId: {{ card.cardId }} </p>
+    <p> setId: {{ card.setId }} </p>
+    <p> uniqueId: {{ card.uniqueId }} </p>
+    <p> Url: {{ card.url }} </p> -->
   </div>
 </template>
 
@@ -19,9 +20,11 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style>
 .card {
-  height: 100%;
+  height: 20vh;
+  width: 14.2vh;
+
   transition: all 100ms ease-in-out;
 }
 .card:hover{
@@ -29,5 +32,6 @@ export default Vue.extend({
 }
 .card img {
   height: 100%;
+  width: 100%;
 }
 </style>

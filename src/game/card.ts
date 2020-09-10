@@ -3,12 +3,15 @@ export class Card {
 
   cardId: CardId;
 
+  uniqueId: string;
+
   url: string;
 
   constructor(setId: number, cardId: CardId, url: string) {
     this.setId = setId;
     this.cardId = cardId;
     this.url = url;
+    this.uniqueId = `${setId}-${cardId}`;
   }
 }
 
