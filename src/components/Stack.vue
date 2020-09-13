@@ -1,6 +1,6 @@
 <template>
   <div id="stack">
-      <p>Click or drag a card to add it to your hand.</p>
+      <p>Drag a card to add it to your hand.</p>
       <ReversedCard v-for="card in cards.slice(1)" v-bind:key="card.uniqueId" />
       <Card
         :card="cards[0]"
@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-//        @click="$emit('remove-card', $event)"
 import Vue from 'vue';
 import { Card as GameCard } from '@/game/Card';
 import Card from './Card.vue';
@@ -43,11 +42,10 @@ export default Vue.extend({
 </script>
 <style scoped>
 .card {
-  /* position: absolute; */
   margin-bottom: -22vh;
 }
 #stack {
   height: 30vh;
-  border: 1px solid red;
+  border: 1px solid blue;
 }
 </style>

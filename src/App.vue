@@ -2,7 +2,10 @@
   <div id="app">
     <h1>{{ message }}</h1>
     <!-- <HelloWorld /> -->
-    <Stack @click-card="onStackCardClick" :cards="game.stack" />
+    <div id="stacks-container">
+      <Stack class="container" @click-card="onStackCardClick" :cards="game.stack" />
+      <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
+    </div>
     <Hand @dropped-card="onHandCardDrop" :cards="game.hand" />
   </div>
 </template>
@@ -12,6 +15,7 @@ import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 import Hand from './components/Hand.vue';
 import Stack from './components/Stack.vue';
+import Discard from './components/Discard.vue';
 import Game from './game/Game';
 import { Card } from './game/Card';
 import ApplicationError from './common/ApplicationError';
@@ -40,6 +44,13 @@ export default Vue.extend({
       }
       this.game.hand.push(card);
     },
+    onDiscardCardDrop(evt: Event, uniqueId: string) {
+      const card = this.takeCard(uniqueId);
+      if (card === null) {
+        throw new ApplicationError(`Failed to find card with ID ${uniqueId}`);
+      }
+      this.game.discard.push(card);
+    },
     takeCard(uniqueId: string): Card | null {
       const removeIfExists = (arr: Array<Card>, id: string): Card | null => {
         const idx = arr.findIndex((c) => c.uniqueId === id);
@@ -63,6 +74,7 @@ export default Vue.extend({
     // HelloWorld,
     Hand,
     Stack,
+    Discard,
   },
 });
 </script>
@@ -75,5 +87,12 @@ export default Vue.extend({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+#stacks-container {
+  display: flex;
+  justify-content: center;
+}
+.container {
+  padding: 0vh 2vh;
 }
 </style>
