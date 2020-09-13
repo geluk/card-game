@@ -1,5 +1,6 @@
 import { Card, CardId } from './card';
 import CardSet from './cardset';
+import CardBuilder from './CardBuilder';
 
 export default class Game {
   stack: Card[];
@@ -12,13 +13,14 @@ export default class Game {
 
   constructor() {
     this.stack = [
-      new Card(1, CardId.One, '/img/cards/2C.svg'),
-      new Card(0, CardId.Two, '/img/cards/2D.svg'),
-      new Card(2, CardId.Two, '/img/cards/4S.svg'),
+      CardBuilder.createCard('2', CardId.Four),
+      CardBuilder.createCard('3', CardId.Two),
     ];
     this.hand = [
-      new Card(0, CardId.Two, '/img/cards/2D.svg'),
-      new Card(2, CardId.Two, '/img/cards/4S.svg'),
+      CardBuilder.createCard('2', CardId.One),
+      CardBuilder.createCard('2', CardId.Two),
+      CardBuilder.createCard('4', CardId.Four),
+      CardBuilder.createCard('2', CardId.Three),
     ];
     this.discard = [];
     this.table = [];
