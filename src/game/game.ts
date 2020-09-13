@@ -1,5 +1,5 @@
-import { Card, CardId } from './card';
-import CardSet from './cardset';
+import { Card, CardId } from '@/game/Card';
+import CardSet from '@/game/CardSet';
 import CardBuilder from './CardBuilder';
 
 export default class Game {

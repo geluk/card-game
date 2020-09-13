@@ -1,4 +1,4 @@
-import { CardId, Card } from './card';
+import { CardId, Card } from './Card';
 
 export default class CardBuilder {
   public static createCard(setId: string, cardId: CardId) {
@@ -6,11 +6,11 @@ export default class CardBuilder {
     return new Card(nSetId, cardId, this.getUrl(nSetId, cardId));
   }
 
-  public static getUrl(setId: number, cardId: CardId): string {
+  private static getUrl(setId: number, cardId: CardId): string {
     return `/img/cards/${setId}${this.getSuit(cardId)}.svg`;
   }
 
-  public static getSuit(cardId: CardId): string {
+  private static getSuit(cardId: CardId): string {
     switch (cardId) {
       case CardId.One: return 'C';
       case CardId.Two: return 'D';

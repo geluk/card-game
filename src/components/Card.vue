@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Card, CardId } from '../game/card';
+import { Card, CardId } from '../game/Card';
 
 export default Vue.extend({
   name: 'Card',
@@ -51,9 +51,6 @@ export default Vue.extend({
   width: 14.2vh;
 
   transition: all 100ms ease-in-out;
-}
-.card.reverse {
-  top: 10px;
 }
 .card.obverse:hover{
   transform: translateY(-20px);

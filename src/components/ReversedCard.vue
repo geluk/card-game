@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Card, CardId } from '../game/card';
+import { Card, CardId } from '../game/Card';
 
 export default Vue.extend({
   name: 'ReversedCard',

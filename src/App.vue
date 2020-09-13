@@ -3,7 +3,7 @@
     <h1>{{ message }}</h1>
     <!-- <HelloWorld /> -->
     <Stack @click-card="onStackCardClick" :cards="game.stack" />
-    <Hand :cards="game.hand" />
+    <Hand @dropped-card="onHandCardDrop" :cards="game.hand" />
   </div>
 </template>
 
@@ -12,8 +12,9 @@ import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 import Hand from './components/Hand.vue';
 import Stack from './components/Stack.vue';
-import Game from './game/game';
-import { Card } from './game/card';
+import Game from './game/Game';
+import { Card } from './game/Card';
+import ApplicationError from './common/ApplicationError';
 
 export default Vue.extend({
   name: 'App',
@@ -31,6 +32,31 @@ export default Vue.extend({
         const removedCard = this.game.stack.splice(0, 1)[0];
         this.game.hand.push(removedCard);
       }
+    },
+    onHandCardDrop(evt: Event, uniqueId: string) {
+      const card = this.takeCard(uniqueId);
+      if (card === null) {
+        throw new ApplicationError(`Failed to find card with ID ${uniqueId}`);
+      }
+      this.game.hand.push(card);
+    },
+    takeCard(uniqueId: string): Card | null {
+      const removeIfExists = (arr: Array<Card>, id: string): Card | null => {
+        const idx = arr.findIndex((c) => c.uniqueId === id);
+        if (idx >= 0) {
+          return arr.splice(idx, 1)[0];
+        }
+        return null;
+      };
+
+      // eslint-disable-next-line
+      for (const arr of [this.game.stack, this.game.hand, this.game.discard]) {
+        const card = removeIfExists(arr, uniqueId);
+        if (card !== null) {
+          return card;
+        }
+      }
+      return null;
     },
   },
   components: {

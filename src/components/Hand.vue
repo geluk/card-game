@@ -15,8 +15,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Card as GameCard } from '@/game/Card';
+import ApplicationError from '@/common/ApplicationError';
 import Card from './Card.vue';
-import { Card as GameCard } from '../game/card';
 
 export default Vue.extend({
   name: 'Hand',
@@ -38,8 +39,13 @@ export default Vue.extend({
       console.log('left dropping area', evt);
     },
     onDrop(evt: DragEvent) {
-      console.log('dropped ', evt.dataTransfer?.getData('uniqueId'));
+      if (!evt.dataTransfer) {
+        throw new ApplicationError('Drag event has no dataTransfer object!');
+      }
+      const uniqueId = evt.dataTransfer.getData('uniqueId');
+      console.log('dropped ', uniqueId);
       this.highlight = false;
+      this.$emit('dropped-card', evt, uniqueId);
     },
     accepts(evt: Event) {
       // no
