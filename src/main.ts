@@ -5,7 +5,7 @@ import Game from './game/game';
 
 Vue.config.productionTip = false;
 
-window.app = new Vue({
+const app = new Vue({
   render: (h) => h(App, {
     props: {
       message: 'a test message',
