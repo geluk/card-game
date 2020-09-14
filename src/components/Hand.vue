@@ -44,26 +44,29 @@ export default Vue.extend({
     };
   },
   methods: {
-    onDragEnter(evt: DragEvent, rem: any) {
+    onDragEnter(evt: DragEvent) {
+      // 'enter' and 'leave' events on child elements will bubble up to this handler,
+      // so we can't just use a boolean here.
       this.highlight += 1;
-      // console.log(`entered hand dropping area (${this.highlight})`, evt, rem);
     },
-    onDragLeave(evt: Event) {
+    onDragLeave(evt: DragEvent) {
       this.highlight -= 1;
-      // console.log(`left hand dropping area (${this.highlight})`, evt);
     },
     onDrop(evt: DragEvent) {
       this.highlight = 0;
       if (!evt.dataTransfer) {
-        throw new ApplicationError('Drag event has no dataTransfer object!');
+        throw new ApplicationError('Drop event has no dataTransfer object!');
       }
       const uniqueId = evt.dataTransfer.getData('uniqueId');
       console.log('dropped ', uniqueId);
-      this.$emit('dropped-card', evt, uniqueId);
+      this.$emit('dropped-card', evt, uniqueId, null);
     },
     onCardDragEnter(evt: DragEvent, card: GameCard) {
       console.log(`entered card ${card.uniqueId} drop zone`, evt);
       this.highlightedCardId = card.uniqueId;
+      // Stopping propagation ensures the hand does not receive this event,
+      // so to the hand it will look like dragged card just left it.
+      // This ensures the hand does not remain highlighted when dragging over a card in the hand.
       evt.stopPropagation();
     },
     onCardDragLeave(evt: DragEvent, card: GameCard) {
@@ -73,12 +76,19 @@ export default Vue.extend({
       if (this.highlightedCardId === card.uniqueId) {
         this.highlightedCardId = '';
       }
+      // Since we stop 'enter' event propagation, we should also stop 'leave' events.
       evt.stopPropagation();
     },
     onCardDrop(evt: DragEvent, card: GameCard) {
-      console.log(`dropped ${evt.dataTransfer.getData('uniqueId')} on ${card.uniqueId}`, evt);
+      this.highlight = 0;
+      if (!evt.dataTransfer) {
+        throw new ApplicationError('Drop event has no dataTransfer object!');
+      }
+      const uniqueId = evt.dataTransfer.getData('uniqueId');
+      console.log(`dropped ${uniqueId} on ${card.uniqueId}`, evt);
       this.highlightedCardId = '';
       evt.stopPropagation();
+      this.$emit('dropped-card', evt, uniqueId, card.uniqueId);
     },
     onClick(evt: Event, card: GameCard) {
       console.log(evt.type, card.uniqueId, evt);

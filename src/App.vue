@@ -37,14 +37,15 @@ export default Vue.extend({
         this.game.hand.push(removedCard);
       }
     },
-    onHandCardDrop(evt: Event, uniqueId: string) {
-      const card = this.takeCard(uniqueId);
+    onHandCardDrop(evt: Event, cardId: string, rcptId: string | null) {
+      const card = this.takeCard(cardId);
       if (card === null) {
-        throw new ApplicationError(`Failed to find card with ID ${uniqueId}`);
+        throw new ApplicationError(`Failed to find card with ID ${cardId}`);
       }
       this.game.hand.push(card);
     },
     onDiscardCardDrop(evt: Event, uniqueId: string) {
+      console.log('dropped on discard');
       const card = this.takeCard(uniqueId);
       if (card === null) {
         throw new ApplicationError(`Failed to find card with ID ${uniqueId}`);
