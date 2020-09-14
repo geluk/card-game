@@ -1,12 +1,15 @@
 <template>
   <div
-    class="card obverse"
+    class="card obverse draggable drop-zone"
     draggable
-    v-on:click="$emit('click', $event, card)"
-    v-on:drag="$emit('drag', $event, card)"
-    v-on:drop="$emit('drop', $event, card)"
-    v-on:dragstart="onDragStart"
-    v-on:dragend="$emit('dragend', $event, card)">
+    @dragover.prevent
+    @dragenter.prevent="$emit('dragenter', $event, card)"
+    @dragleave.prevent="$emit('dragleave', $event, card)"
+    @click="$emit('click', $event, card)"
+    @drag="$emit('drag', $event, card)"
+    @drop.prevent="$emit('drop', $event, card)"
+    @dragstart="onDragStart"
+    @dragend="$emit('dragend', $event, card)">
     <img :src="card.url"/>
     <!-- <p> cardId: {{ card.cardId }} </p>
     <p> setId: {{ card.setId }} </p>

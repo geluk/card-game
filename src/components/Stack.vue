@@ -25,6 +25,7 @@ export default Vue.extend({
   },
   methods: {
     onClick(evt: Event, card: GameCard) {
+      console.log(evt.type, card.uniqueId, evt);
       this.$emit('click-card', evt, card);
     },
     report(evt: Event, card: GameCard) {

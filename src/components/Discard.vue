@@ -1,7 +1,10 @@
 <template>
   <div
     id="discard"
-    @dragover.prevent
+    :class="{highlight: highlight}"
+    class="drop-zone"
+    @dragenter.prevent="onDragEnter"
+    @dragleave.prevent="onDragLeave"
     @drop.prevent="onDrop">
       <p>Drag cards here to discard them.</p>
       <ReversedCard v-for="card in cards" v-bind:key="card.uniqueId" />
@@ -19,7 +22,20 @@ export default Vue.extend({
   props: {
     cards: { type: Array },
   },
+  data() {
+    return {
+      highlight: false,
+    };
+  },
   methods: {
+    onDragEnter(evt: DragEvent, rem: any) {
+      this.highlight = true;
+      console.log('entered discard dropping area', evt, rem);
+    },
+    onDragLeave(evt: Event) {
+      this.highlight = false;
+      console.log('left discard dropping area', evt);
+    },
     onDrop(evt: DragEvent) {
       if (!evt.dataTransfer) {
         throw new ApplicationError('Drag event has no dataTransfer object!');
