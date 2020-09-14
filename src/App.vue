@@ -96,9 +96,6 @@ export default Vue.extend({
 .container {
   padding: 0vh 2vh;
 }
-.drop-zone *:not(.draggable) {
-  /* pointer-events: none; */
-}
 .highlight{
   background-color: #ddd;
 }
