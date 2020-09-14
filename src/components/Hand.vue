@@ -97,7 +97,8 @@ export default Vue.extend({
       if (this.highlightedCardId === recipient.uniqueId) {
         return true;
       } if (this.highlightedCardId === '') {
-        return this.highlight >= 1 && recipient.cardId === this.cards[this.cards.length - 1].cardId;
+        const lastCard = this.cards[this.cards.length - 1] as GameCard;
+        return this.highlight >= 1 && recipient.cardId === lastCard.cardId;
       }
       return false;
     },
