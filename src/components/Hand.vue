@@ -18,7 +18,7 @@
         @dragenter="onCardDragEnter"
         @dragleave="onCardDragLeave"
         @drop="onCardDrop" />
-      <ReversedCard v-if="shouldDropHere(card)" />
+      <div class="indicator" v-if="shouldDropHere(card)" />
     </div>
 
     </div>
@@ -48,12 +48,17 @@ export default Vue.extend({
       // 'enter' and 'leave' events on child elements will bubble up to this handler,
       // so we can't just use a boolean here, or the drop zone will keep flashing.
       this.highlight += 1;
+      const uniqueId = this.getUniqueId(evt);
+      console.log(`hand enter (${this.highlight}): ${uniqueId}`, evt);
     },
     onDragLeave(evt: DragEvent) {
       this.highlight -= 1;
+      const uniqueId = this.getUniqueId(evt);
+      console.log(`hand leave (${this.highlight}): ${uniqueId}`);
     },
     onDrop(evt: DragEvent) {
       this.highlight = 0;
+      this.highlightedCardId = '';
       const uniqueId = this.getUniqueId(evt);
       console.log('dropped ', uniqueId);
       this.$emit('dropped-card', evt, uniqueId, null);
@@ -78,9 +83,9 @@ export default Vue.extend({
     },
     onCardDrop(evt: DragEvent, recipient: GameCard) {
       this.highlight = 0;
+      this.highlightedCardId = '';
       const uniqueId = this.getUniqueId(evt);
       console.log(`dropped ${uniqueId} on ${recipient.uniqueId}`, evt);
-      this.highlightedCardId = '';
       evt.stopPropagation();
       this.$emit('dropped-card', evt, uniqueId, recipient.uniqueId);
     },
@@ -94,18 +99,19 @@ export default Vue.extend({
       return evt.dataTransfer.getData('uniqueId');
     },
     shouldDropHere(recipient: GameCard): boolean {
-      if (this.highlightedCardId === recipient.uniqueId) {
-        return true;
-      } if (this.highlightedCardId === '') {
+      return true;
+      /* eslint-disable */
+      if (this.highlightedCardId === '') {
         const lastCard = this.cards[this.cards.length - 1] as GameCard;
         return this.highlight >= 1 && recipient.cardId === lastCard.cardId;
+      } if (this.highlightedCardId === recipient.uniqueId) {
+        return true;
       }
       return false;
     },
   },
   components: {
     Card,
-    ReversedCard,
   },
 });
 </script>
@@ -121,5 +127,14 @@ export default Vue.extend({
 .card-container {
   display: flex;
   justify-content: center;
+}
+.indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+}
+.indicator::before {
+  content: 'V';
 }
 </style>

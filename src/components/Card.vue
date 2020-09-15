@@ -31,9 +31,8 @@ export default Vue.extend({
         return;
       }
       /* eslint-disable no-param-reassign */
-      /* Parameter reassignment unavoidable here,
-       * that's just how JavaScript's event system works
-       */
+      // Parameter reassignment unavoidable here,
+      // that's just how JavaScript's event system works
       evt.dataTransfer.dropEffect = 'move';
       evt.dataTransfer.effectAllowed = 'move';
       evt.dataTransfer.setData('uniqueId', this.card.uniqueId);
