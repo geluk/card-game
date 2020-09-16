@@ -1,6 +1,7 @@
 <template>
   <div
     class="card obverse draggable drop-zone"
+    :class="{ highlight: highlight }"
     draggable
     @dragover.prevent
     @dragenter.prevent="$emit('dragenter', $event, card)"
@@ -10,6 +11,8 @@
     @drop.prevent="$emit('drop', $event, card)"
     @dragstart="onDragStart"
     @dragend="$emit('dragend', $event, card)">
+    <div class="card-overlay highlight">
+    </div>
     <img :src="card.url"/>
     <!-- <p> cardId: {{ card.cardId }} </p>
     <p> setId: {{ card.setId }} </p>
@@ -24,6 +27,10 @@ import { Card, CardId } from '../game/Card';
 
 export default Vue.extend({
   name: 'Card',
+  props: {
+    card: Card,
+    highlight: Boolean,
+  },
   methods: {
     onDragStart(evt: DragEvent) {
       if (evt.dataTransfer == null) {
@@ -41,14 +48,12 @@ export default Vue.extend({
       this.$emit('dragstart', evt, this.card);
     },
   },
-  props: {
-    card: Card,
-  },
 });
 </script>
 
 <style>
 .card {
+  position: relative;
   height: 20vh;
   width: 14.2vh;
 
@@ -60,5 +65,14 @@ export default Vue.extend({
 .card img {
   height: 100%;
   width: 100%;
+}
+.card.highlight img {
+  filter: brightness(80%);
+}
+.card-overlay {
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
 }
 </style>

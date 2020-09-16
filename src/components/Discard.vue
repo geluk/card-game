@@ -5,7 +5,7 @@
     class="drop-zone"
     @dragenter.prevent="onDragEnter"
     @dragleave.prevent="onDragLeave"
-    @drop="onDrop">
+    @drop.prevent="onDrop">
       <div><p>Drag cards here to discard them.</p></div>
       <ReversedCard v-for="card in cards" v-bind:key="card.uniqueId" />
   </div>
@@ -37,7 +37,7 @@ export default Vue.extend({
       console.log('left discard dropping area', evt);
     },
     onDrop(evt: DragEvent) {
-      console.log('dropped on discarddddd');
+      console.log('dropped on discard');
       this.highlight = 0;
 
       if (!evt.dataTransfer) {

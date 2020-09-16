@@ -2,7 +2,6 @@
   <div
     id="hand"
     :class="{highlight: highlight > 0}"
-    class="drop-zone"
     @dragover.prevent
     @dragenter.prevent="onDragEnter"
     @dragleave.prevent="onDragLeave"
@@ -14,11 +13,11 @@
     <div class="card-container" v-for="card in cards" :key="card.uniqueId">
       <Card
         :card="card"
+        :highlight="shouldDropHere(card)"
         @click="onClick"
         @dragenter="onCardDragEnter"
         @dragleave="onCardDragLeave"
         @drop="onCardDrop" />
-      <div class="indicator" v-if="shouldDropHere(card)" />
     </div>
 
     </div>
@@ -87,7 +86,7 @@ export default Vue.extend({
       const uniqueId = this.getUniqueId(evt);
       console.log(`dropped ${uniqueId} on ${recipient.uniqueId}`, evt);
       evt.stopPropagation();
-      this.$emit('dropped-card', evt, uniqueId, recipient.uniqueId);
+      this.$emit('dropped-card', evt, uniqueId, recipient);
     },
     onClick(evt: Event, card: GameCard) {
       console.log(evt.type, card.uniqueId, evt);
@@ -99,12 +98,13 @@ export default Vue.extend({
       return evt.dataTransfer.getData('uniqueId');
     },
     shouldDropHere(recipient: GameCard): boolean {
-      return true;
       /* eslint-disable */
       if (this.highlightedCardId === '') {
+        return false;
         const lastCard = this.cards[this.cards.length - 1] as GameCard;
         return this.highlight >= 1 && recipient.cardId === lastCard.cardId;
-      } if (this.highlightedCardId === recipient.uniqueId) {
+      }
+      if (this.highlightedCardId === recipient.uniqueId) {
         return true;
       }
       return false;

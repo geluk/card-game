@@ -15,6 +15,9 @@ export default class Game {
     this.stack = [
       CardBuilder.createCard('2', CardId.Four),
       CardBuilder.createCard('3', CardId.Two),
+      CardBuilder.createCard('3', CardId.One),
+      CardBuilder.createCard('3', CardId.Three),
+      CardBuilder.createCard('3', CardId.Four),
     ];
     this.hand = [
       CardBuilder.createCard('2', CardId.One),
@@ -24,5 +27,9 @@ export default class Game {
     ];
     this.discard = [];
     this.table = [];
+  }
+
+  public static addToHand() {
+    // TBD
   }
 }

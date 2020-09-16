@@ -2,6 +2,7 @@
   <div id="app">
     <h1>{{ message }}</h1>
     <!-- <HelloWorld /> -->
+    <Table />
     <div id="stacks-container">
       <Stack class="container" @click-card="onStackCardClick" :cards="game.stack" />
       <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
@@ -16,6 +17,7 @@ import HelloWorld from './components/HelloWorld.vue';
 import Hand from './components/Hand.vue';
 import Stack from './components/Stack.vue';
 import Discard from './components/Discard.vue';
+import Table from './components/Table.vue';
 import Game from './game/Game';
 import { Card } from './game/Card';
 import ApplicationError from './common/ApplicationError';
@@ -32,27 +34,26 @@ export default Vue.extend({
   },
   methods: {
     onStackCardClick(evt: Event, card: Card) {
-      if (this.game.stack) {
-        const removedCard = this.game.stack.splice(0, 1)[0];
+      const removedCard = this.game.stack.shift();
+      if (removedCard) {
         this.game.hand.push(removedCard);
       }
     },
-    onHandCardDrop(evt: Event, cardId: string, rcptId: string | null) {
+    onHandCardDrop(evt: Event, cardId: string, recipient: Card | null) {
       const card = this.takeCard(cardId);
-      if (card === null) {
-        throw new ApplicationError(`Failed to find card with ID ${cardId}`);
+      if (recipient === null) {
+        this.game.hand.push(card);
+      } else {
+        const index = this.game.hand.indexOf(recipient);
+        this.game.hand.splice(index + 1, 0, card);
       }
-      this.game.hand.push(card);
     },
     onDiscardCardDrop(evt: Event, uniqueId: string) {
       console.log('dropped on discard');
       const card = this.takeCard(uniqueId);
-      if (card === null) {
-        throw new ApplicationError(`Failed to find card with ID ${uniqueId}`);
-      }
       this.game.discard.push(card);
     },
-    takeCard(uniqueId: string): Card | null {
+    takeCard(uniqueId: string): Card {
       const removeIfExists = (arr: Array<Card>, id: string): Card | null => {
         const idx = arr.findIndex((c) => c.uniqueId === id);
         if (idx >= 0) {
@@ -68,7 +69,7 @@ export default Vue.extend({
           return card;
         }
       }
-      return null;
+      throw new ApplicationError(`Failed to find card with ID ${uniqueId}`);
     },
   },
   components: {
@@ -76,6 +77,7 @@ export default Vue.extend({
     Hand,
     Stack,
     Discard,
+    Table,
   },
 });
 </script>
