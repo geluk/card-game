@@ -8,12 +8,13 @@
     @drop.prevent="onDrop">
     <div>
       <h2>Your hand</h2>
+      <p>Drag cards to arrange them in sets of four, then click a set to move it to the table.</p>
     </div>
     <div id="hand-cards">
     <div class="card-container" v-for="card in cards" :key="card.uniqueId">
       <Card
         :card="card"
-        :highlight="shouldDropHere(card)"
+        :highlight="shouldHighlight(card)"
         @click="onClick"
         @dragenter="onCardDragEnter"
         @dragleave="onCardDragLeave"
@@ -44,26 +45,24 @@ export default Vue.extend({
   },
   methods: {
     onDragEnter(evt: DragEvent) {
+      if (!this.isValidDrop(evt)) return;
       // 'enter' and 'leave' events on child elements will bubble up to this handler,
       // so we can't just use a boolean here, or the drop zone will keep flashing.
       this.highlight += 1;
-      const uniqueId = this.getUniqueId(evt);
-      console.log(`hand enter (${this.highlight}): ${uniqueId}`, evt);
     },
     onDragLeave(evt: DragEvent) {
+      if (!this.isValidDrop(evt)) return;
       this.highlight -= 1;
-      const uniqueId = this.getUniqueId(evt);
-      console.log(`hand leave (${this.highlight}): ${uniqueId}`);
     },
     onDrop(evt: DragEvent) {
+      if (!this.isValidDrop(evt)) return;
       this.highlight = 0;
       this.highlightedCardId = '';
       const uniqueId = this.getUniqueId(evt);
-      console.log('dropped ', uniqueId);
       this.$emit('dropped-card', evt, uniqueId, null);
     },
     onCardDragEnter(evt: DragEvent, recipient: GameCard) {
-      console.log(`entered card ${recipient.uniqueId} drop zone`, evt);
+      if (!this.isValidDrop(evt)) return;
       this.highlightedCardId = recipient.uniqueId;
       // Stopping propagation ensures the hand does not receive this event,
       // so to the hand it will look like dragged card just left it.
@@ -71,7 +70,7 @@ export default Vue.extend({
       evt.stopPropagation();
     },
     onCardDragLeave(evt: DragEvent, recipient: GameCard) {
-      console.log(`left card ${recipient.uniqueId} drop zone`, evt);
+      if (!this.isValidDrop(evt)) return;
       // The 'enter' event for an adjacent card may fire before the current card's 'leave' event,
       // therefore we should only remove the highlight if the highlighted ID hasn't yet changed.
       if (this.highlightedCardId === recipient.uniqueId) {
@@ -81,33 +80,24 @@ export default Vue.extend({
       evt.stopPropagation();
     },
     onCardDrop(evt: DragEvent, recipient: GameCard) {
+      if (!this.isValidDrop(evt)) return;
       this.highlight = 0;
       this.highlightedCardId = '';
-      const uniqueId = this.getUniqueId(evt);
-      console.log(`dropped ${uniqueId} on ${recipient.uniqueId}`, evt);
       evt.stopPropagation();
+      const uniqueId = this.getUniqueId(evt);
       this.$emit('dropped-card', evt, uniqueId, recipient);
     },
     onClick(evt: Event, card: GameCard) {
-      console.log(evt.type, card.uniqueId, evt);
+      this.$emit('clicked-card', evt, card);
     },
     getUniqueId(evt: DragEvent): string {
-      if (!evt.dataTransfer) {
-        throw new ApplicationError('Drop event has no dataTransfer object!');
-      }
-      return evt.dataTransfer.getData('uniqueId');
+      return evt.dataTransfer!.getData('uniqueId');
     },
-    shouldDropHere(recipient: GameCard): boolean {
-      /* eslint-disable */
-      if (this.highlightedCardId === '') {
-        return false;
-        const lastCard = this.cards[this.cards.length - 1] as GameCard;
-        return this.highlight >= 1 && recipient.cardId === lastCard.cardId;
-      }
-      if (this.highlightedCardId === recipient.uniqueId) {
-        return true;
-      }
-      return false;
+    shouldHighlight(card: GameCard): boolean {
+      return this.highlightedCardId === card.uniqueId;
+    },
+    isValidDrop(evt: DragEvent) {
+      return evt.dataTransfer && evt.dataTransfer.getData('uniqueId');
     },
   },
   components: {

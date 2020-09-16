@@ -12,19 +12,8 @@ export default class Game {
   table: CardSet[];
 
   constructor() {
-    this.stack = [
-      CardBuilder.createCard('2', CardId.Four),
-      CardBuilder.createCard('3', CardId.Two),
-      CardBuilder.createCard('3', CardId.One),
-      CardBuilder.createCard('3', CardId.Three),
-      CardBuilder.createCard('3', CardId.Four),
-    ];
-    this.hand = [
-      CardBuilder.createCard('2', CardId.One),
-      CardBuilder.createCard('2', CardId.Two),
-      CardBuilder.createCard('4', CardId.Four),
-      CardBuilder.createCard('2', CardId.Three),
-    ];
+    this.stack = CardBuilder.createFullSet(2);
+    this.hand = CardBuilder.createFullSet(3);
     this.discard = [];
     this.table = [];
   }

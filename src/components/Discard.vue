@@ -3,6 +3,7 @@
     id="discard"
     :class="{highlight: highlight}"
     class="drop-zone"
+    @dragover.prevent
     @dragenter.prevent="onDragEnter"
     @dragleave.prevent="onDragLeave"
     @drop.prevent="onDrop">
@@ -29,14 +30,17 @@ export default Vue.extend({
   },
   methods: {
     onDragEnter(evt: DragEvent) {
+      if (!this.isValidDrop(evt)) return;
       this.highlight += 1;
       console.log('entered discard dropping area', evt);
     },
     onDragLeave(evt: Event) {
+      if (!this.isValidDrop(evt)) return;
       this.highlight -= 1;
       console.log('left discard dropping area', evt);
     },
     onDrop(evt: DragEvent) {
+      if (!this.isValidDrop(evt)) return;
       console.log('dropped on discard');
       this.highlight = 0;
 
@@ -46,6 +50,9 @@ export default Vue.extend({
       const uniqueId = evt.dataTransfer.getData('uniqueId');
       console.log('dropped ', uniqueId);
       this.$emit('dropped-card', evt, uniqueId);
+    },
+    isValidDrop(evt: DragEvent) {
+      return evt.dataTransfer && evt.dataTransfer.getData('uniqueId');
     },
   },
   computed: {

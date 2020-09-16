@@ -1,9 +1,17 @@
 import { CardId, Card } from './Card';
 
 export default class CardBuilder {
-  public static createCard(setId: string, cardId: CardId) {
-    const nSetId = Number.parseInt(setId, 10);
-    return new Card(nSetId, cardId, this.getUrl(nSetId, cardId));
+  public static createCards(setCount: number): Card[] {
+    return this.range(setCount, 2).flatMap(this.createFullSet);
+  }
+
+  public static createFullSet(setId: number): Card[] {
+    const suits = [CardId.One, CardId.Two, CardId.Three, CardId.Four];
+    return suits.map((s) => this.createCard(setId, s));
+  }
+
+  public static createCard(setId: number, cardId: CardId): Card {
+    return new Card(setId, cardId, this.getUrl(setId, cardId));
   }
 
   private static getUrl(setId: number, cardId: CardId): string {
@@ -18,5 +26,9 @@ export default class CardBuilder {
       case CardId.Four: return 'S';
       default: throw new Error('Unexpected CardId value');
     }
+  }
+
+  private static range(size: number, startAt: number) {
+    return [...Array(size).keys()].map((i) => i + startAt);
   }
 }

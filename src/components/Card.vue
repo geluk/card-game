@@ -14,10 +14,6 @@
     <div class="card-overlay highlight">
     </div>
     <img :src="card.url"/>
-    <!-- <p> cardId: {{ card.cardId }} </p>
-    <p> setId: {{ card.setId }} </p>
-    <p> uniqueId: {{ card.uniqueId }} </p>
-    <p> Url: {{ card.url }} </p> -->
   </div>
 </template>
 
@@ -38,7 +34,7 @@ export default Vue.extend({
         return;
       }
       /* eslint-disable no-param-reassign */
-      // Parameter reassignment unavoidable here,
+      // Parameter reassignment is unavoidable here,
       // that's just how JavaScript's event system works
       evt.dataTransfer.dropEffect = 'move';
       evt.dataTransfer.effectAllowed = 'move';

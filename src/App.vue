@@ -42,7 +42,7 @@ export default Vue.extend({
     onHandCardDrop(evt: Event, cardId: string, recipient: Card | null) {
       const card = this.takeCard(cardId);
       if (recipient === null) {
-        this.game.hand.push(card);
+        this.game.hand.unshift(card);
       } else {
         const index = this.game.hand.indexOf(recipient);
         this.game.hand.splice(index + 1, 0, card);
@@ -54,7 +54,7 @@ export default Vue.extend({
       this.game.discard.push(card);
     },
     takeCard(uniqueId: string): Card {
-      const removeIfExists = (arr: Array<Card>, id: string): Card | null => {
+      const removeIfExists = (arr: Card[], id: string): Card | null => {
         const idx = arr.findIndex((c) => c.uniqueId === id);
         if (idx >= 0) {
           return arr.splice(idx, 1)[0];

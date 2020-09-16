@@ -2,6 +2,7 @@
   <div
     id="table"
     class="drop-zone"
+    @dragover.prevent
     @drop.prevent="onDrop">
     <p>Completed sets will go here.</p>
   </div>
