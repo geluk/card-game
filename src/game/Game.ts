@@ -1,6 +1,11 @@
 import { Card } from '@/game/Card';
 import CardSet from '@/game/CardSet';
 import CardBuilder from './CardBuilder';
+import NotifyType from './NotifyType';
+
+const HAND_MAX = 6;
+
+type NotifyHandler = (type: NotifyType, msg: string) => void;
 
 export default class Game {
   stack: Card[];
@@ -13,20 +18,27 @@ export default class Game {
 
   assemblyArea: CardSet;
 
-  constructor() {
-    const cards = CardBuilder.createCards(4);
+  handlers: NotifyHandler[];
 
+  constructor() {
+    const cards = CardBuilder.createCards(5);
+
+    this.hand = cards.splice(0, 6);
     this.stack = cards;
-    this.hand = [];
     this.discard = [];
     this.table = [];
     this.assemblyArea = new CardSet();
+    this.handlers = [];
   }
 
   public moveToHand() {
-    const removedCard = this.stack.shift();
-    if (removedCard) {
-      this.hand.push(removedCard);
+    if (this.hand.length < HAND_MAX) {
+      const removedCard = this.stack.shift();
+      if (removedCard) {
+        this.hand.push(removedCard);
+      }
+    } else {
+      this.notify(NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`);
     }
   }
 
@@ -72,6 +84,10 @@ export default class Game {
     throw new Error(`Unreachable (card with ID ${uniqueId} does not exist)`);
   }
 
+  public subscribe(handler: NotifyHandler) {
+    this.handlers.push(handler);
+  }
+
   private takeCard(card: Card) {
     // eslint-disable-next-line
     for (const arr of [this.stack, this.hand, this.discard]) {
@@ -82,7 +98,7 @@ export default class Game {
     }
   }
 
-  public static addToHand() {
-    // TBD
+  private notify(type: NotifyType, msg: string) {
+    this.handlers.forEach((h) => h(type, msg));
   }
 }

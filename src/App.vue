@@ -21,6 +21,7 @@ import Discard from './components/Discard.vue';
 import Table from './components/Table.vue';
 import Game from './game/Game';
 import { Card } from './game/Card';
+import NotifyType from './game/NotifyType';
 
 export default Vue.extend({
   name: 'App',
@@ -28,6 +29,20 @@ export default Vue.extend({
     return {
       game: new Game(),
     };
+  },
+  mounted() {
+    this.game.subscribe((type: NotifyType, msg: string) => {
+      switch (type) {
+        case NotifyType.Info:
+          console.log(`info: ${msg}`);
+          break;
+        case NotifyType.Error:
+          console.log(`error: ${msg}`);
+          break;
+        default:
+          break;
+      }
+    });
   },
   methods: {
     onStackCardClick() {
