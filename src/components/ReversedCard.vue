@@ -21,14 +21,12 @@ export default Vue.extend({
   methods: {
     onDragEnter(evt: DragEvent) {
       const uniqueId = this.getUniqueId(evt);
-      console.log(`reversed card entered by ${uniqueId}`);
       if (this.preventEvents) {
         evt.preventDefault();
       }
     },
     onDragLeave(evt: DragEvent) {
       const uniqueId = this.getUniqueId(evt);
-      console.log(`reversed card exited by ${uniqueId}`);
       if (this.preventEvents) {
         evt.preventDefault();
       }

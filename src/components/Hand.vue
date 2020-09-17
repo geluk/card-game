@@ -88,7 +88,7 @@ export default Vue.extend({
       this.$emit('dropped-card', evt, uniqueId, recipient);
     },
     onClick(evt: Event, card: GameCard) {
-      this.$emit('clicked-card', evt, card);
+      this.$emit('click-card', evt, card);
     },
     getUniqueId(evt: DragEvent): string {
       return evt.dataTransfer!.getData('uniqueId');

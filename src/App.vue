@@ -2,7 +2,11 @@
   <div id="app">
     <h1>{{ message }}</h1>
     <!-- <HelloWorld /> -->
-    <Table />
+    <Table
+      class="container"
+      @dropped-card="onTableCardDrop"
+      :assemblyArea="game.assemblyArea"
+      :completedSets="game.table" />
     <div id="stacks-container">
       <Stack class="container" @click-card="onStackCardClick" :cards="game.stack" />
       <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
@@ -34,42 +38,16 @@ export default Vue.extend({
   },
   methods: {
     onStackCardClick(evt: Event, card: Card) {
-      const removedCard = this.game.stack.shift();
-      if (removedCard) {
-        this.game.hand.push(removedCard);
-      }
+      this.game.moveToHand(card);
     },
     onHandCardDrop(evt: Event, cardId: string, recipient: Card | null) {
-      const card = this.takeCard(cardId);
-      if (recipient === null) {
-        this.game.hand.unshift(card);
-      } else {
-        const index = this.game.hand.indexOf(recipient);
-        this.game.hand.splice(index + 1, 0, card);
-      }
+      this.game.positionCardInHand(cardId, recipient);
     },
     onDiscardCardDrop(evt: Event, uniqueId: string) {
-      console.log('dropped on discard');
-      const card = this.takeCard(uniqueId);
-      this.game.discard.push(card);
+      this.game.moveToDiscard(uniqueId);
     },
-    takeCard(uniqueId: string): Card {
-      const removeIfExists = (arr: Card[], id: string): Card | null => {
-        const idx = arr.findIndex((c) => c.uniqueId === id);
-        if (idx >= 0) {
-          return arr.splice(idx, 1)[0];
-        }
-        return null;
-      };
-
-      // eslint-disable-next-line
-      for (const arr of [this.game.stack, this.game.hand, this.game.discard]) {
-        const card = removeIfExists(arr, uniqueId);
-        if (card !== null) {
-          return card;
-        }
-      }
-      throw new ApplicationError(`Failed to find card with ID ${uniqueId}`);
+    onTableCardDrop(evt: Event, uniqueId: string) {
+      this.game.moveToAssemblyArea(uniqueId);
     },
   },
   components: {

@@ -1,7 +1,7 @@
 <template>
   <div
     class="card obverse draggable drop-zone"
-    :class="{ highlight: highlight }"
+    :class="{ highlight: highlight, inactive: inactive }"
     draggable
     @dragover.prevent
     @dragenter.prevent="$emit('dragenter', $event, card)"
@@ -26,6 +26,7 @@ export default Vue.extend({
   props: {
     card: Card,
     highlight: Boolean,
+    inactive: Boolean,
   },
   methods: {
     onDragStart(evt: DragEvent) {

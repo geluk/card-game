@@ -34,7 +34,7 @@ export default Vue.extend({
       this.highlight += 1;
       console.log('entered discard dropping area', evt);
     },
-    onDragLeave(evt: Event) {
+    onDragLeave(evt: DragEvent) {
       if (!this.isValidDrop(evt)) return;
       this.highlight -= 1;
       console.log('left discard dropping area', evt);
@@ -44,10 +44,7 @@ export default Vue.extend({
       console.log('dropped on discard');
       this.highlight = 0;
 
-      if (!evt.dataTransfer) {
-        throw new ApplicationError('Drag event has no dataTransfer object!');
-      }
-      const uniqueId = evt.dataTransfer.getData('uniqueId');
+      const uniqueId = evt.dataTransfer!.getData('uniqueId');
       console.log('dropped ', uniqueId);
       this.$emit('dropped-card', evt, uniqueId);
     },
