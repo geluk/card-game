@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <h1>{{ message }}</h1>
-    <!-- <HelloWorld /> -->
     <Table
       class="container"
       @dropped-card="onTableCardDrop"
@@ -9,9 +7,9 @@
       :completedSets="game.table" />
     <div id="stacks-container">
       <Stack class="container" @click-card="onStackCardClick" :cards="game.stack" />
+      <Hand @dropped-card="onHandCardDrop" :cards="game.hand" />
       <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
     </div>
-    <Hand @dropped-card="onHandCardDrop" :cards="game.hand" />
   </div>
 </template>
 
@@ -26,9 +24,6 @@ import { Card } from './game/Card';
 
 export default Vue.extend({
   name: 'App',
-  props: {
-    message: String,
-  },
   data() {
     return {
       game: new Game(),
@@ -64,7 +59,6 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 #stacks-container {
   display: flex;

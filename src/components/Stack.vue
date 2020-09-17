@@ -5,9 +5,6 @@
       <Card
         :card="cards[0]"
         @click="onClick"
-        @drop="report"
-        @dragstart="report"
-        @dragend="report"
         v-if="cards.length > 0" />
   </div>
 </template>
@@ -28,11 +25,6 @@ export default Vue.extend({
       console.log(evt.type, card.uniqueId, evt);
       this.$emit('click-card', evt, card);
     },
-    report(evt: Event, card: GameCard) {
-      console.log(evt.type, card.uniqueId, evt);
-    },
-  },
-  computed: {
   },
   components: {
     Card,
@@ -43,7 +35,7 @@ export default Vue.extend({
 </script>
 <style scoped>
 .card {
-  margin-bottom: -22vh;
+  margin-bottom: -18vh;
 }
 #stack {
   height: 30vh;

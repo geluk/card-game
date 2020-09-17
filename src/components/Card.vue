@@ -4,15 +4,13 @@
     :class="{ highlight: highlight, inactive: inactive }"
     draggable
     @dragover.prevent
-    @dragenter.prevent="$emit('dragenter', $event, card)"
-    @dragleave.prevent="$emit('dragleave', $event, card)"
+    @dragenter="$emit('dragenter', $event, card)"
+    @dragleave="$emit('dragleave', $event, card)"
     @click="$emit('click', $event, card)"
     @drag="$emit('drag', $event, card)"
     @drop.prevent="$emit('drop', $event, card)"
     @dragstart="onDragStart"
     @dragend="$emit('dragend', $event, card)">
-    <div class="card-overlay highlight">
-    </div>
     <img :src="card.url"/>
   </div>
 </template>
@@ -31,7 +29,6 @@ export default Vue.extend({
   methods: {
     onDragStart(evt: DragEvent) {
       if (evt.dataTransfer == null) {
-        console.error('Drag event has no dataTransfer object!');
         return;
       }
       /* eslint-disable no-param-reassign */
@@ -53,8 +50,7 @@ export default Vue.extend({
   position: relative;
   height: 20vh;
   width: 14.2vh;
-
-  transition: all 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
 }
 .card.obverse:hover{
   transform: translateY(-20px);
@@ -65,11 +61,5 @@ export default Vue.extend({
 }
 .card.highlight img {
   filter: brightness(80%);
-}
-.card-overlay {
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
 }
 </style>

@@ -30,27 +30,21 @@ export default Vue.extend({
     onDragEnter(evt: DragEvent) {
       if (!this.isValidDrop(evt)) return;
       this.highlight += 1;
-      console.log('entered discard dropping area', evt);
     },
     onDragLeave(evt: DragEvent) {
       if (!this.isValidDrop(evt)) return;
       this.highlight -= 1;
-      console.log('left discard dropping area', evt);
     },
     onDrop(evt: DragEvent) {
       if (!this.isValidDrop(evt)) return;
-      console.log('dropped on discard');
       this.highlight = 0;
 
       const uniqueId = evt.dataTransfer!.getData('uniqueId');
-      console.log('dropped ', uniqueId);
       this.$emit('dropped-card', evt, uniqueId);
     },
     isValidDrop(evt: DragEvent) {
       return evt.dataTransfer && evt.dataTransfer.getData('uniqueId');
     },
-  },
-  computed: {
   },
   components: {
     ReversedCard,
@@ -60,7 +54,7 @@ export default Vue.extend({
 </script>
 <style scoped>
 .card {
-  margin-bottom: -22vh;
+  margin-bottom: -18vh;
 }
 #discard {
   height: 30vh;

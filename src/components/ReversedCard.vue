@@ -1,14 +1,13 @@
 <template>
   <div
     class="card reverse"
-    @dragenter.prevent="onDragEnter"
-    @dragleave.prevent="onDragLeave">
+    @dragenter="onDragEnter"
+    @dragleave="onDragLeave">
     <img src="/img/cards/card-back.svg" />
   </div>
 </template>
 
 <script lang="ts">
-import ApplicationError from '@/common/ApplicationError';
 import Vue from 'vue';
 import { Card } from '../game/Card';
 
@@ -28,12 +27,6 @@ export default Vue.extend({
       if (this.preventEvents) {
         evt.preventDefault();
       }
-    },
-    getUniqueId(evt: DragEvent): string {
-      if (!evt.dataTransfer) {
-        throw new ApplicationError('Drop event has no dataTransfer object!');
-      }
-      return evt.dataTransfer.getData('uniqueId');
     },
   },
 });

@@ -4,12 +4,12 @@
     class="drop-zone"
     :class="{highlight: highlight}"
     @dragover.prevent
-    @dragenter.prevent="onDragEnter"
-    @dragleave.prevent="onDragLeave"
+    @dragenter="onDragEnter"
+    @dragleave="onDragLeave"
     @drop.prevent="onDrop">
     <p>Completed sets will go here.</p>
     <div class="completed-sets">
-      <div class="completed-set" v-for="set in typedCompletedSets" :key="set.setId">
+      <div class="completed-set" v-for="set in completedSets" :key="set.setId">
         <Card v-for="card in set.cards" :key="card.uniqueId" :card="card" />
       </div>
     </div>
@@ -36,12 +36,6 @@ export default Vue.extend({
       highlight: 0,
     };
   },
-  computed: {
-    typedCompletedSets(): CardSet[] {
-      //
-      return this.completedSets as CardSet[];
-    },
-  },
   methods: {
     onDragEnter(evt: DragEvent) {
       if (!this.isValidDrop(evt)) return;
@@ -53,7 +47,6 @@ export default Vue.extend({
     },
     onDrop(evt: DragEvent) {
       if (!this.isValidDrop(evt)) return;
-      console.log('dropped on table');
       this.highlight = 0;
 
       const uniqueId = evt.dataTransfer!.getData('uniqueId');

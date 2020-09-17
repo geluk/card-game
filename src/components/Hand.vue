@@ -3,8 +3,8 @@
     id="hand"
     :class="{highlight: highlight > 0}"
     @dragover.prevent
-    @dragenter.prevent="onDragEnter"
-    @dragleave.prevent="onDragLeave"
+    @dragenter="onDragEnter"
+    @dragleave="onDragLeave"
     @drop.prevent="onDrop">
     <div>
       <h2>Your hand</h2>
@@ -28,9 +28,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Card as GameCard } from '@/game/Card';
-import ApplicationError from '@/common/ApplicationError';
 import Card from './Card.vue';
-import ReversedCard from './ReversedCard.vue';
 
 export default Vue.extend({
   name: 'Hand',
@@ -113,18 +111,5 @@ export default Vue.extend({
 #hand-cards {
   display: flex;
   justify-content: center;
-}
-.card-container {
-  display: flex;
-  justify-content: center;
-}
-.indicator {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: red;
-}
-.indicator::before {
-  content: 'V';
 }
 </style>
