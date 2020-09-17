@@ -13,7 +13,8 @@
         <Card v-for="card in set.cards" :key="card.uniqueId" :card="card" />
       </div>
     </div>
-    <div class="assembly-area">
+    <p>Assemble a new set by dragging cards of the same set here.</p>
+    <div class="assembly-area container">
       <Card v-for="card in assemblyArea.cards" :key="card.uniqueId" :card="card" />
     </div>
   </div>
@@ -73,6 +74,10 @@ export default Vue.extend({
 #table {
   border: 1px solid green;
 
+}
+
+.assembly-area {
+  min-height: 10vh;
 }
 
 .assembly-area, .completed-sets {
