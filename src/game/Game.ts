@@ -1,4 +1,4 @@
-import { Card, CardId } from '@/game/Card';
+import { Card } from '@/game/Card';
 import CardSet from '@/game/CardSet';
 import CardBuilder from './CardBuilder';
 import ApplicationError from '../common/ApplicationError';
@@ -22,7 +22,7 @@ export default class Game {
     this.assemblyArea = new CardSet();
   }
 
-  public moveToHand(card: Card) {
+  public moveToHand() {
     const removedCard = this.stack.shift();
     if (removedCard) {
       this.hand.push(removedCard);

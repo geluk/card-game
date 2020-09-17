@@ -14,8 +14,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Card as GameCard } from '@/game/Card';
-import ApplicationError from '@/common/ApplicationError';
 import ReversedCard from './ReversedCard.vue';
 
 export default Vue.extend({

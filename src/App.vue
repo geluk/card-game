@@ -17,14 +17,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
 import Hand from './components/Hand.vue';
 import Stack from './components/Stack.vue';
 import Discard from './components/Discard.vue';
 import Table from './components/Table.vue';
 import Game from './game/Game';
 import { Card } from './game/Card';
-import ApplicationError from './common/ApplicationError';
 
 export default Vue.extend({
   name: 'App',
@@ -37,8 +35,8 @@ export default Vue.extend({
     };
   },
   methods: {
-    onStackCardClick(evt: Event, card: Card) {
-      this.game.moveToHand(card);
+    onStackCardClick() {
+      this.game.moveToHand();
     },
     onHandCardDrop(evt: Event, cardId: string, recipient: Card | null) {
       this.game.positionCardInHand(cardId, recipient);
@@ -51,7 +49,6 @@ export default Vue.extend({
     },
   },
   components: {
-    // HelloWorld,
     Hand,
     Stack,
     Discard,

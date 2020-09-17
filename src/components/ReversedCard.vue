@@ -10,7 +10,7 @@
 <script lang="ts">
 import ApplicationError from '@/common/ApplicationError';
 import Vue from 'vue';
-import { Card, CardId } from '../game/Card';
+import { Card } from '../game/Card';
 
 export default Vue.extend({
   name: 'ReversedCard',
@@ -20,13 +20,11 @@ export default Vue.extend({
   },
   methods: {
     onDragEnter(evt: DragEvent) {
-      const uniqueId = this.getUniqueId(evt);
       if (this.preventEvents) {
         evt.preventDefault();
       }
     },
     onDragLeave(evt: DragEvent) {
-      const uniqueId = this.getUniqueId(evt);
       if (this.preventEvents) {
         evt.preventDefault();
       }
