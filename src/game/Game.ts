@@ -1,7 +1,6 @@
 import { Card } from '@/game/Card';
 import CardSet from '@/game/CardSet';
 import CardBuilder from './CardBuilder';
-import ApplicationError from '../common/ApplicationError';
 
 export default class Game {
   stack: Card[];
@@ -75,7 +74,9 @@ export default class Game {
       }
     }
 
-    throw new ApplicationError('Card not found.');
+    // Required to satisfy the compiler,
+    // as the above loop is not guaranteed to return.
+    throw new Error(`Unreachable (card with ID ${uniqueId} does not exist)`);
   }
 
   private findCard(uniqueId: string): Card | null {

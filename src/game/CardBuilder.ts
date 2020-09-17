@@ -30,7 +30,12 @@ export default class CardBuilder {
       case CardId.Two: return 'D';
       case CardId.Three: return 'H';
       case CardId.Four: return 'S';
-      default: throw new Error('Unexpected CardId value');
+      // Required to satisfy JSlint.
+      // The Typescript compiler will actually prevent you
+      // from calling this method with an invalid enum value,
+      // so this can only result in a runtime error if you
+      // ignore the TS compiler error.
+      default: throw new Error('Unreachable');
     }
   }
 
