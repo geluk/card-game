@@ -60,7 +60,7 @@ export default Vue.extend({
 
 <style>
 html {
-  font-size: 2vh;
+  font-size: min(2vh, 2vw);
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
