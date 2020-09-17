@@ -59,6 +59,9 @@ export default Vue.extend({
 </script>
 
 <style>
+html {
+  font-size: 2vh;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -70,11 +73,11 @@ export default Vue.extend({
   display: flex;
   justify-content: center;
 }
-#hand, #stack, #discard {
-  height: 32vh;
+#hand {
+  flex-grow: 2;
 }
 .container {
-  padding: 0vh 2vh;
+  padding: 0 1rem;
 }
 .highlight{
   background-color: #ddd;

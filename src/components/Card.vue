@@ -48,8 +48,8 @@ export default Vue.extend({
 <style>
 .card {
   position: relative;
-  height: 20vh;
-  width: 14.2vh;
+  height: 12rem;
+  width: 8.6rem;
   transition: transform 100ms ease-in-out;
 }
 .card.obverse:not(.inactive):hover{

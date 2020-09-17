@@ -37,13 +37,12 @@ export default Vue.extend({
 </script>
 <style scoped>
 .card {
-  margin-bottom: -19.5vh;
+  margin-bottom: -11.5rem;
 }
 #stack {
-  border: 1px solid blue;
+  border: 1px solid grey;
 }
-.stack-cards {
-  /* display: grid;
-  grid-template-rows: repeat(auto-fit, minmax(10px, max-content)); */
+.stack-cards .card:last-child {
+  margin-bottom: 0;
 }
 </style>

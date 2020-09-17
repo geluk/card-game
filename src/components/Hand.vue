@@ -1,6 +1,7 @@
 <template>
   <div
     id="hand"
+    class="container"
     :class="{highlight: highlight > 0}"
     @dragover.prevent
     @dragenter="onDragEnter"
@@ -8,7 +9,6 @@
     @drop.prevent="onDrop">
     <div>
       <h2>Your hand</h2>
-      <p>Drag cards to arrange them in sets of four, then click a set to move it to the table.</p>
     </div>
     <div id="hand-cards">
     <div class="card-container" v-for="card in cards" :key="card.uniqueId">
@@ -109,7 +109,7 @@ export default Vue.extend({
   border: 1px solid grey;
 }
 #hand-cards {
-  width: 80%;
+  width: calc(100% - 8.6rem);
   margin-left: 0;
   margin-right: auto;
   justify-content: center;

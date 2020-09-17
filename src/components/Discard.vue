@@ -54,9 +54,9 @@ export default Vue.extend({
 </script>
 <style scoped>
 .card {
-  margin-bottom: -18vh;
+  margin-bottom: -11.5rem;
 }
 #discard {
-  border: 1px solid red;
+  border: 1px solid grey;
 }
 </style>

@@ -64,7 +64,7 @@ export default Vue.extend({
 
 <style scoped>
 #table {
-  border: 1px solid green;
+  border: 1px solid grey;
 
 }
 
@@ -77,11 +77,10 @@ export default Vue.extend({
   justify-content: center;
 }
 
-.completed-set {
-  height: 27vh;
-}
-
 .completed-set .card {
-  margin-bottom: -17.5vh;
+  margin-bottom: -10.8rem;
+}
+.completed-set .card:last-child {
+margin-bottom: 0;
 }
 </style>
