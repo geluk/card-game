@@ -70,6 +70,9 @@ export default Vue.extend({
   display: flex;
   justify-content: center;
 }
+#hand, #stack, #discard {
+  height: 32vh;
+}
 .container {
   padding: 0vh 2vh;
 }

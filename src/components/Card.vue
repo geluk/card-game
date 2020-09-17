@@ -52,7 +52,7 @@ export default Vue.extend({
   width: 14.2vh;
   transition: transform 100ms ease-in-out;
 }
-.card.obverse:hover{
+.card.obverse:not(.inactive):hover{
   transform: translateY(-20px);
 }
 .card img {

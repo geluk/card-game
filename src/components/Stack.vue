@@ -1,11 +1,13 @@
 <template>
   <div id="stack">
       <p>Drag a card to add it to your hand.</p>
-      <ReversedCard v-for="card in cards.slice(1)" v-bind:key="card.uniqueId" />
-      <Card
-        :card="cards[0]"
-        @click="onClick"
-        v-if="cards.length > 0" />
+      <div class="stack-cards">
+        <ReversedCard v-for="card in cards.slice(1)" v-bind:key="card.uniqueId" />
+        <Card
+          :card="cards[0]"
+          @click="onClick"
+          v-if="cards.length > 0" />
+      </div>
   </div>
 </template>
 
@@ -35,10 +37,13 @@ export default Vue.extend({
 </script>
 <style scoped>
 .card {
-  margin-bottom: -18vh;
+  margin-bottom: -19.5vh;
 }
 #stack {
-  height: 30vh;
   border: 1px solid blue;
+}
+.stack-cards {
+  /* display: grid;
+  grid-template-rows: repeat(auto-fit, minmax(10px, max-content)); */
 }
 </style>

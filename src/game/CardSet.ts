@@ -16,6 +16,10 @@ export default class CardSet {
     this.cards.push(card);
   }
 
+  public clear(): Card[] {
+    return this.cards.splice(0, this.cards.length);
+  }
+
   public isFullSet(): boolean {
     return this.cards.length === 4;
   }

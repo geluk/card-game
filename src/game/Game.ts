@@ -39,6 +39,8 @@ export default class Game {
     if (this.assemblyArea.accepts(card)) {
       this.takeCard(card);
       this.assemblyArea.add(card);
+    } else {
+      this.hand.push(...this.assemblyArea.clear());
     }
     if (this.assemblyArea.isFullSet()) {
       this.table.push(this.assemblyArea);

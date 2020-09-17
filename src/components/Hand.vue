@@ -109,7 +109,11 @@ export default Vue.extend({
   border: 1px solid grey;
 }
 #hand-cards {
-  display: flex;
+  width: 80%;
+  margin-left: 0;
+  margin-right: auto;
   justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10px, max-content));
 }
 </style>

@@ -57,7 +57,6 @@ export default Vue.extend({
   margin-bottom: -18vh;
 }
 #discard {
-  height: 30vh;
   border: 1px solid red;
 }
 </style>

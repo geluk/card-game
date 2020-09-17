@@ -7,10 +7,9 @@
     @dragenter="onDragEnter"
     @dragleave="onDragLeave"
     @drop.prevent="onDrop">
-    <p>Completed sets will go here.</p>
     <div class="completed-sets">
       <div class="completed-set" v-for="set in completedSets" :key="set.setId">
-        <Card v-for="card in set.cards" :key="card.uniqueId" :card="card" />
+        <Card v-for="card in set.cards" :key="card.uniqueId" :card="card" :inactive="true" />
       </div>
     </div>
     <p>Assemble a new set by dragging cards of the same set here.</p>
@@ -79,10 +78,10 @@ export default Vue.extend({
 }
 
 .completed-set {
-  height: 29vh;
+  height: 27vh;
 }
 
 .completed-set .card {
-  margin-bottom: -17vh;
+  margin-bottom: -17.5vh;
 }
 </style>
