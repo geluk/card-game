@@ -30,15 +30,14 @@ export default class Game {
     }
   }
 
-  public moveToDiscard(uniqueId: string) {
-    const card = this.takeCard(uniqueId);
+  public moveToDiscard(card: Card) {
+    this.takeCard(card);
     this.discard.push(card);
   }
 
-  public moveToAssemblyArea(uniqueId: string) {
-    const card = this.findCard(uniqueId)!;
+  public moveToAssemblyArea(card: Card) {
     if (this.assemblyArea.accepts(card)) {
-      this.takeCard(card.uniqueId);
+      this.takeCard(card);
       this.assemblyArea.add(card);
     }
     if (this.assemblyArea.isFullSet()) {
@@ -47,8 +46,8 @@ export default class Game {
     }
   }
 
-  public positionCardInHand(cardId: string, recipient: Card | null) {
-    const card = this.takeCard(cardId);
+  public positionCardInHand(card: Card, recipient: Card | null) {
+    this.takeCard(card);
     if (recipient === null) {
       this.hand.unshift(card);
     } else {
@@ -57,18 +56,10 @@ export default class Game {
     }
   }
 
-  private takeCard(uniqueId: string): Card {
-    const removeIfExists = (arr: Card[], id: string): Card | null => {
-      const idx = arr.findIndex((c) => c.uniqueId === id);
-      if (idx >= 0) {
-        return arr.splice(idx, 1)[0];
-      }
-      return null;
-    };
-
+  public findCard(uniqueId: string): Card {
     // eslint-disable-next-line
     for (const arr of [this.stack, this.hand, this.discard]) {
-      const card = removeIfExists(arr, uniqueId);
+      const card = arr.find((c) => c.uniqueId === uniqueId);
       if (card) {
         return card;
       }
@@ -79,15 +70,14 @@ export default class Game {
     throw new Error(`Unreachable (card with ID ${uniqueId} does not exist)`);
   }
 
-  private findCard(uniqueId: string): Card | null {
+  private takeCard(card: Card) {
     // eslint-disable-next-line
     for (const arr of [this.stack, this.hand, this.discard]) {
-      const card = arr.find((c) => c.uniqueId === uniqueId);
-      if (card) {
-        return card;
+      const index = arr.indexOf(card);
+      if (index >= 0) {
+        arr.splice(index, 1);
       }
     }
-    return null;
   }
 
   public static addToHand() {

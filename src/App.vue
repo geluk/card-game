@@ -7,7 +7,7 @@
       :completedSets="game.table" />
     <div id="stacks-container">
       <Stack class="container" @click-card="onStackCardClick" :cards="game.stack" />
-      <Hand @dropped-card="onHandCardDrop" :cards="game.hand" />
+      <Hand @dropped-card="onHandCardDrop" @click-card="onHandCardClick" :cards="game.hand" />
       <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
     </div>
   </div>
@@ -33,14 +33,20 @@ export default Vue.extend({
     onStackCardClick() {
       this.game.moveToHand();
     },
+    onHandCardClick(evt: Event, card: Card) {
+      this.game.moveToAssemblyArea(card);
+    },
     onHandCardDrop(evt: Event, cardId: string, recipient: Card | null) {
-      this.game.positionCardInHand(cardId, recipient);
+      const card = this.game.findCard(cardId);
+      this.game.positionCardInHand(card, recipient);
     },
-    onDiscardCardDrop(evt: Event, uniqueId: string) {
-      this.game.moveToDiscard(uniqueId);
+    onDiscardCardDrop(evt: Event, cardId: string) {
+      const card = this.game.findCard(cardId);
+      this.game.moveToDiscard(card);
     },
-    onTableCardDrop(evt: Event, uniqueId: string) {
-      this.game.moveToAssemblyArea(uniqueId);
+    onTableCardDrop(evt: Event, cardId: string) {
+      const card = this.game.findCard(cardId);
+      this.game.moveToAssemblyArea(card);
     },
   },
   components: {
