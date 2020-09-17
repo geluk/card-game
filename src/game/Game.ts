@@ -15,8 +15,10 @@ export default class Game {
   assemblyArea: CardSet;
 
   constructor() {
-    this.stack = CardBuilder.createFullSet(2);
-    this.hand = CardBuilder.createFullSet(3);
+    const cards = CardBuilder.createCards(4);
+
+    this.stack = cards;
+    this.hand = [];
     this.discard = [];
     this.table = [];
     this.assemblyArea = new CardSet();

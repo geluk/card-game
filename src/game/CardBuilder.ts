@@ -2,7 +2,13 @@ import { CardId, Card } from './Card';
 
 export default class CardBuilder {
   public static createCards(setCount: number): Card[] {
-    return this.range(setCount, 2).flatMap(this.createFullSet);
+    const cards = this.range(setCount, 2).flatMap((s) => this.createFullSet(s));
+    const shuffled = [];
+    while (cards.length > 0) {
+      const randomCard = Math.floor(Math.random() * cards.length);
+      shuffled.push(cards.splice(randomCard, 1)[0]);
+    }
+    return shuffled;
   }
 
   public static createFullSet(setId: number): Card[] {
