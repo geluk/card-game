@@ -14,6 +14,7 @@ export default class CardSet {
 
   public add(card: Card) {
     this.cards.push(card);
+    this.cards.sort((a, b) => a.setId - b.setId);
   }
 
   public clear(): Card[] {

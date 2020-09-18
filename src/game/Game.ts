@@ -59,6 +59,7 @@ export default class Game {
   }
 
   public moveToAssemblyArea(card: Card) {
+    if (!this.validateDraw(card)) return;
     if (this.assemblyArea.accepts(card)) {
       this.takeCard(card);
       this.assemblyArea.add(card);
@@ -74,11 +75,7 @@ export default class Game {
   }
 
   public positionCardInHand(card: Card, recipient: Card | null) {
-    const isReorder = this.hand.indexOf(card) >= 0;
-    if (this.hand.length >= HAND_MAX && !isReorder) {
-      this.onMessage.notify([NotifyType.Error, `You cannot draw if your hard contains ${HAND_MAX} or more cards.`]);
-      return;
-    }
+    if (!this.validateDraw(card)) return;
     this.takeCard(card);
     if (recipient === null) {
       this.hand.unshift(card);
@@ -101,6 +98,15 @@ export default class Game {
     // Required to satisfy the compiler,
     // as the above loop is not guaranteed to return.
     throw new Error(`Unreachable (card with ID ${uniqueId} does not exist)`);
+  }
+
+  private validateDraw(card: Card): boolean {
+    const isDraw = this.stack.indexOf(card) > -1;
+    if (this.hand.length >= HAND_MAX && isDraw) {
+      this.onMessage.notify([NotifyType.Error, `You cannot draw if your hand contains ${HAND_MAX} or more cards.`]);
+      return false;
+    }
+    return true;
   }
 
   private takeCard(card: Card) {
