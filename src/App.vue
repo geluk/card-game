@@ -11,7 +11,12 @@
       <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
     </div>
     <div id="game-bar">
-      <div>Score: {{ game.score }}</div>
+      <div>
+        Score: {{ totalScore + game.score }}
+      </div>
+      <div>
+        <button v-text="'new game'" @click="onNewGameClick"></button>
+      </div>
     </div>
   </div>
 </template>
@@ -32,36 +37,11 @@ export default Vue.extend({
   data() {
     return {
       game: new Game(),
+      totalScore: 0,
     };
   },
   mounted() {
-    this.game.onMessage.observe(((evt) => {
-      const [type, msg] = evt;
-      switch (type) {
-        case NotifyType.Info:
-          this.$toasted.show(msg);
-          console.log(`info: ${msg}`);
-          break;
-        case NotifyType.Error:
-          this.$toasted.show(msg);
-          console.log(`error: ${msg}`);
-          break;
-        default:
-          break;
-      }
-    }));
-    this.game.onFinished.observe((outcome) => {
-      switch (outcome) {
-        case GameOutcome.Win:
-          this.$toasted.show('Game clear!');
-          break;
-        case GameOutcome.NoMoreMoves:
-          this.$toasted.show('No more moves!');
-          break;
-        default:
-          break;
-      }
-    });
+    this.startNewGame();
   },
   methods: {
     onStackCardClick() {
@@ -81,6 +61,40 @@ export default Vue.extend({
     onTableCardDrop(evt: Event, cardId: string) {
       const card = this.game.findCard(cardId);
       this.game.moveToAssemblyArea(card);
+    },
+    onNewGameClick() {
+      this.startNewGame();
+    },
+    startNewGame() {
+      this.totalScore += this.game.score;
+      this.game = new Game();
+      this.game.onMessage.observe(((evt) => {
+        const [type, msg] = evt;
+        switch (type) {
+          case NotifyType.Info:
+            this.$toasted.show(msg);
+            console.log(`info: ${msg}`);
+            break;
+          case NotifyType.Error:
+            this.$toasted.show(msg);
+            console.log(`error: ${msg}`);
+            break;
+          default:
+            break;
+        }
+      }));
+      this.game.onFinished.observe((outcome) => {
+        switch (outcome) {
+          case GameOutcome.Win:
+            this.$toasted.show('Game clear!');
+            break;
+          case GameOutcome.NoMoreMoves:
+            this.$toasted.show('No more moves!');
+            break;
+          default:
+            break;
+        }
+      });
     },
   },
   components: {
@@ -103,6 +117,14 @@ html {
   text-align: center;
   color: #2c3e50;
 }
+button {
+  background-color: #bbb;
+  color: #2c3e50;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.2rem 0.3rem;
+}
 .toasted .primary, .toasted.toasted-primary {
   font-size: inherit;
   padding: 0.5rem 1.5rem;
@@ -122,12 +144,18 @@ html {
   background-color: #ddd;
 }
 #game-bar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: #333;
   color: #ddd;
   padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#game-bar > div {
+  padding: 0 0.5rem;
 }
 </style>
