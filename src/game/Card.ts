@@ -23,3 +23,4 @@ export enum CardId {
   Three,
   Four,
 }
+export const CARDS_PER_SET = 4;

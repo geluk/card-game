@@ -28,7 +28,7 @@ export default Vue.extend({
   },
   methods: {
     onDragStart(evt: DragEvent) {
-      if (evt.dataTransfer == null) {
+      if (evt.dataTransfer == null || this.inactive) {
         return;
       }
       /* eslint-disable no-param-reassign */
@@ -48,8 +48,8 @@ export default Vue.extend({
 <style>
 .card {
   position: relative;
-  height: 12rem;
-  width: 8.6rem;
+  height: 10rem;
+  width: 7rem;
   transition: transform 100ms ease-in-out;
 }
 .card.obverse:not(.inactive):hover{

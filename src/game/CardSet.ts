@@ -1,4 +1,4 @@
-import { Card, CardId } from './Card';
+import { Card, CARDS_PER_SET } from './Card';
 
 export default class CardSet {
   cards: Card[];
@@ -21,7 +21,7 @@ export default class CardSet {
   }
 
   public isFullSet(): boolean {
-    return this.cards.length === 4;
+    return this.cards.length === CARDS_PER_SET;
   }
 
   public get setId() {

@@ -65,7 +65,7 @@ export default Vue.extend({
 <style scoped>
 #table {
   border: 1px solid grey;
-
+  height: 28rem;
 }
 
 .assembly-area {
@@ -78,7 +78,7 @@ export default Vue.extend({
 }
 
 .completed-set .card {
-  margin-bottom: -10.8rem;
+  margin-bottom: -9rem;
 }
 .completed-set .card:last-child {
 margin-bottom: 0;

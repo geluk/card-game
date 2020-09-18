@@ -37,7 +37,7 @@ export default Vue.extend({
 </script>
 <style scoped>
 .card {
-  margin-bottom: -11.5rem;
+  margin-bottom: -9.75rem;
 }
 #stack {
   border: 1px solid grey;

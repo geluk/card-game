@@ -1,50 +1,61 @@
-import { Card } from '@/game/Card';
-import CardSet from '@/game/CardSet';
+import { Card, CARDS_PER_SET } from './Card';
+import CardSet from './CardSet';
 import CardBuilder from './CardBuilder';
 import NotifyType from './NotifyType';
+import GameOutcome from './GameOutcome';
+import Observable from './Observable';
 
 const HAND_MAX = 6;
+const SETS_PER_GAME = 5;
 
 type NotifyHandler = (type: NotifyType, msg: string) => void;
+type Ongoing = 'ongoing';
 
 export default class Game {
   stack: Card[];
 
   hand: Card[];
 
-  discard: Card[];
+  discard: Card[] = [];
 
-  table: CardSet[];
+  table: CardSet[] = [];
 
   assemblyArea: CardSet;
 
-  handlers: NotifyHandler[];
+  score = 0;
+
+  finished = false;
+
+  onMessage: Observable<[NotifyType, string]>;
+
+  onFinished: Observable<GameOutcome>;
 
   constructor() {
-    const cards = CardBuilder.createCards(5);
+    const cards = CardBuilder.createCards(SETS_PER_GAME);
 
-    this.hand = cards.splice(0, 6);
+    this.hand = cards.splice(0, HAND_MAX);
     this.stack = cards;
-    this.discard = [];
-    this.table = [];
     this.assemblyArea = new CardSet();
-    this.handlers = [];
+    this.onFinished = new Observable();
+    this.onMessage = new Observable();
   }
 
   public moveToHand() {
     if (this.hand.length >= HAND_MAX) {
-      this.notify(NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`);
+      this.onMessage.notify([NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`]);
       return;
     }
     const removedCard = this.stack.shift();
     if (removedCard) {
       this.hand.push(removedCard);
     }
+    this.checkGameState();
   }
 
   public moveToDiscard(card: Card) {
     this.takeCard(card);
     this.discard.push(card);
+    this.checkGameState();
   }
 
   public moveToAssemblyArea(card: Card) {
@@ -57,13 +68,15 @@ export default class Game {
     if (this.assemblyArea.isFullSet()) {
       this.table.push(this.assemblyArea);
       this.assemblyArea = new CardSet();
+      this.score += 5;
     }
+    this.checkGameState();
   }
 
   public positionCardInHand(card: Card, recipient: Card | null) {
     const isReorder = this.hand.indexOf(card) >= 0;
     if (this.hand.length >= HAND_MAX && !isReorder) {
-      this.notify(NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`);
+      this.onMessage.notify([NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`]);
       return;
     }
     this.takeCard(card);
@@ -73,11 +86,12 @@ export default class Game {
       const index = this.hand.indexOf(recipient);
       this.hand.splice(index + 1, 0, card);
     }
+    this.checkGameState();
   }
 
   public findCard(uniqueId: string): Card {
     // eslint-disable-next-line
-    for (const arr of [this.stack, this.hand, this.discard]) {
+    for (const arr of [this.stack, this.hand, this.assemblyArea.cards]) {
       const card = arr.find((c) => c.uniqueId === uniqueId);
       if (card) {
         return card;
@@ -89,13 +103,9 @@ export default class Game {
     throw new Error(`Unreachable (card with ID ${uniqueId} does not exist)`);
   }
 
-  public subscribe(handler: NotifyHandler) {
-    this.handlers.push(handler);
-  }
-
   private takeCard(card: Card) {
     // eslint-disable-next-line
-    for (const arr of [this.stack, this.hand, this.discard]) {
+    for (const arr of [this.stack, this.hand, this.assemblyArea.cards]) {
       const index = arr.indexOf(card);
       if (index >= 0) {
         arr.splice(index, 1);
@@ -103,7 +113,38 @@ export default class Game {
     }
   }
 
-  private notify(type: NotifyType, msg: string) {
-    this.handlers.forEach((h) => h(type, msg));
+  private checkGameState() {
+    const gameState = this.getGameState();
+    if (gameState !== null) {
+      this.finished = true;
+      this.onFinished.notify(gameState);
+    }
+  }
+
+  // Using null here is pretty dubious,
+  // but it's more ergonomic than anything else I could find.
+  // Ideally this would be a discriminated union like so:
+  // GameState =
+  //  | Ongoing
+  //  | Finished(Win | NoMoreMoves)
+  private getGameState(): GameOutcome | null {
+    if (this.stack.length > 0) {
+      return null;
+    }
+    if (this.hand.length === 0 && this.assemblyArea.cards.length === 0) {
+      return GameOutcome.Win;
+    }
+
+    const availableCards = this.hand.concat(this.assemblyArea.cards);
+    const cardCounts = availableCards.reduce((acc: Array<number>, curr: Card) => {
+      const val = acc[curr.setId] ?? 0;
+      acc[curr.setId] = val + 1;
+      return acc;
+    }, []);
+
+    console.log(cardCounts);
+
+    const canMakeSet = !cardCounts.every((n) => n < CARDS_PER_SET);
+    return canMakeSet ? null : GameOutcome.NoMoreMoves;
   }
 }

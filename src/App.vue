@@ -10,6 +10,9 @@
       <Hand @dropped-card="onHandCardDrop" @click-card="onHandCardClick" :cards="game.hand" />
       <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
     </div>
+    <div id="game-bar">
+      <div>Score: {{ game.score }}</div>
+    </div>
   </div>
 </template>
 
@@ -22,6 +25,7 @@ import Table from './components/Table.vue';
 import Game from './game/Game';
 import { Card } from './game/Card';
 import NotifyType from './game/NotifyType';
+import GameOutcome from './game/GameOutcome';
 
 export default Vue.extend({
   name: 'App',
@@ -31,7 +35,8 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.game.subscribe((type: NotifyType, msg: string) => {
+    this.game.onMessage.observe(((evt) => {
+      const [type, msg] = evt;
       switch (type) {
         case NotifyType.Info:
           this.$toasted.show(msg);
@@ -40,6 +45,18 @@ export default Vue.extend({
         case NotifyType.Error:
           this.$toasted.show(msg);
           console.log(`error: ${msg}`);
+          break;
+        default:
+          break;
+      }
+    }));
+    this.game.onFinished.observe((outcome) => {
+      switch (outcome) {
+        case GameOutcome.Win:
+          this.$toasted.show('Game clear!');
+          break;
+        case GameOutcome.NoMoreMoves:
+          this.$toasted.show('No more moves!');
           break;
         default:
           break;
@@ -98,5 +115,14 @@ html {
 }
 .highlight{
   background-color: #ddd;
+}
+#game-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #333;
+  color: #ddd;
+  padding: 0.5rem;
 }
 </style>
