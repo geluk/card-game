@@ -109,6 +109,7 @@ export default Vue.extend({
 <style>
 html {
   font-size: min(2vh, 2vw);
+  user-select: none;
 }
 #app, .toast-notification {
   font-family: Avenir, Helvetica, Arial, sans-serif;
