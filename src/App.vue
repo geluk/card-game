@@ -34,9 +34,11 @@ export default Vue.extend({
     this.game.subscribe((type: NotifyType, msg: string) => {
       switch (type) {
         case NotifyType.Info:
+          this.$toasted.show(msg);
           console.log(`info: ${msg}`);
           break;
         case NotifyType.Error:
+          this.$toasted.show(msg);
           console.log(`error: ${msg}`);
           break;
         default:

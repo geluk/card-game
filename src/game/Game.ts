@@ -32,13 +32,13 @@ export default class Game {
   }
 
   public moveToHand() {
-    if (this.hand.length < HAND_MAX) {
-      const removedCard = this.stack.shift();
-      if (removedCard) {
-        this.hand.push(removedCard);
-      }
-    } else {
+    if (this.hand.length >= HAND_MAX) {
       this.notify(NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`);
+      return;
+    }
+    const removedCard = this.stack.shift();
+    if (removedCard) {
+      this.hand.push(removedCard);
     }
   }
 
@@ -61,6 +61,11 @@ export default class Game {
   }
 
   public positionCardInHand(card: Card, recipient: Card | null) {
+    const isReorder = this.hand.indexOf(card) >= 0;
+    if (this.hand.length >= HAND_MAX && !isReorder) {
+      this.notify(NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`);
+      return;
+    }
     this.takeCard(card);
     if (recipient === null) {
       this.hand.unshift(card);
