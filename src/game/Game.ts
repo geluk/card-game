@@ -5,7 +5,7 @@ import NotifyType from './NotifyType';
 import GameOutcome from './GameOutcome';
 import Observable from './Observable';
 
-const HAND_MAX = 6;
+const HAND_MAX = 7;
 const SETS_PER_GAME = 5;
 
 type NotifyHandler = (type: NotifyType, msg: string) => void;
