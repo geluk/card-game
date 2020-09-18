@@ -18,9 +18,9 @@ export class Card {
 // Each set may only contain four unique cards,
 // so we define an enum to enforce this.
 export enum CardId {
-  One,
-  Two,
-  Three,
-  Four,
+  Diamonds,
+  Clubs,
+  Hearts,
+  Spades,
 }
 export const CARDS_PER_SET = 4;

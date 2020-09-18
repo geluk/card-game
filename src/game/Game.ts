@@ -8,9 +8,6 @@ import Observable from './Observable';
 const HAND_MAX = 7;
 const SETS_PER_GAME = 5;
 
-type NotifyHandler = (type: NotifyType, msg: string) => void;
-type Ongoing = 'ongoing';
-
 export default class Game {
   stack: Card[];
 
@@ -108,9 +105,7 @@ export default class Game {
       return;
     }
     this.shufflesRemaining -= 1;
-    console.log(this.stack[0].url);
     this.stack.push(this.stack.shift()!);
-    console.log(this.stack[0].url);
   }
 
   private validateDraw(card: Card): boolean {
@@ -166,8 +161,6 @@ export default class Game {
       acc[curr.setId] = val + 1;
       return acc;
     }, []);
-
-    console.log(cardCounts);
 
     const canMakeSet = !cardCounts.every((n) => n < CARDS_PER_SET);
     return canMakeSet ? null : GameOutcome.NoMoreMoves;
