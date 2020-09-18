@@ -10,20 +10,11 @@
       <Hand @dropped-card="onHandCardDrop" @click-card="onHandCardClick" :cards="game.hand" />
       <Discard class="container" @dropped-card="onDiscardCardDrop" :cards="game.discard" />
     </div>
-    <div id="game-bar">
-      <div>
-        Score: {{ totalScore + game.score }}
-      </div>
-      <div>
-        Shuffles remaining: {{ game.shufflesRemaining }}
-      </div>
-      <div>
-        <button v-text="'shuffle'" @click="onShuffleClick"></button>
-      </div>
-      <div>
-        <button v-text="'new game'" @click="onNewGameClick"></button>
-      </div>
-    </div>
+    <GameBar
+      :score="totalScore + game.score"
+      :shufflesRemaining="game.shufflesRemaining"
+      @shuffle-click="onShuffleClick"
+      @new-game-click="onNewGameClick" />
   </div>
 </template>
 
@@ -33,6 +24,7 @@ import Hand from './components/Hand.vue';
 import Stack from './components/Stack.vue';
 import Discard from './components/Discard.vue';
 import Table from './components/Table.vue';
+import GameBar from './components/GameBar.vue';
 import Game from './game/Game';
 import { Card } from './game/Card';
 import NotifyType from './game/NotifyType';
@@ -81,12 +73,10 @@ export default Vue.extend({
         const [type, msg] = evt;
         switch (type) {
           case NotifyType.Info:
-            this.$toasted.show(msg);
-            console.log(`info: ${msg}`);
+            this.$toasted.show(msg, { className: 'info' });
             break;
           case NotifyType.Error:
-            this.$toasted.show(msg);
-            console.log(`error: ${msg}`);
+            this.$toasted.show(msg, { className: 'error' });
             break;
           default:
             break;
@@ -114,6 +104,7 @@ export default Vue.extend({
     Stack,
     Discard,
     Table,
+    GameBar,
   },
 });
 </script>
@@ -123,20 +114,14 @@ html {
   font-size: min(2vh, 2vw);
   user-select: none;
 }
-#app, .toast-notification {
+#app, .toasted .primary, .toasted.toasted-primary {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+#app {
   text-align: center;
   color: #2c3e50;
-}
-button {
-  background-color: #bbb;
-  color: #2c3e50;
-  border: none;
-  font-family: inherit;
-  font-size: inherit;
-  padding: 0.2rem 0.3rem;
 }
 .toasted .primary, .toasted.toasted-primary {
   font-size: inherit;
@@ -147,28 +132,10 @@ button {
   display: flex;
   justify-content: center;
 }
-#hand {
-  flex-grow: 2;
-}
 .container {
   padding: 0 1rem;
 }
 .highlight{
   background-color: #ddd;
-}
-#game-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #333;
-  color: #ddd;
-  padding: 0.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#game-bar > div {
-  padding: 0 0.5rem;
 }
 </style>

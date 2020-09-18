@@ -107,6 +107,7 @@ export default Vue.extend({
 <style scoped>
 #hand {
   border: 1px solid grey;
+  flex-grow: 2;
 }
 #hand-cards {
   width: calc(100% - 8.6rem);
