@@ -122,6 +122,9 @@ export default class Game {
   private checkGameState() {
     const gameState = this.getGameState();
     if (gameState !== null) {
+      if (!this.finished && gameState === GameOutcome.Win) {
+        this.score += 20;
+      }
       this.finished = true;
       this.onFinished.notify(gameState);
     }
@@ -138,7 +141,10 @@ export default class Game {
       return null;
     }
     if (this.hand.length === 0 && this.assemblyArea.cards.length === 0) {
-      return GameOutcome.Win;
+      if (this.discard.length === 0) {
+        return GameOutcome.Win;
+      }
+      return GameOutcome.HandClear;
     }
 
     const availableCards = this.hand.concat(this.assemblyArea.cards);

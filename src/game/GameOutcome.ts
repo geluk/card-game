@@ -1,6 +1,7 @@
 enum GameOutcome {
-  Win,
   NoMoreMoves,
+  HandClear,
+  Win,
 }
 
 export default GameOutcome;

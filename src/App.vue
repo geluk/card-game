@@ -86,10 +86,13 @@ export default Vue.extend({
       this.game.onFinished.observe((outcome) => {
         switch (outcome) {
           case GameOutcome.Win:
-            this.$toasted.show('Game clear!');
+            this.$toasted.show('You win!');
             break;
           case GameOutcome.NoMoreMoves:
             this.$toasted.show('No more moves!');
+            break;
+          case GameOutcome.HandClear:
+            this.$toasted.show('Game cleared!');
             break;
           default:
             break;
