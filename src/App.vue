@@ -96,12 +96,17 @@ export default Vue.extend({
 html {
   font-size: min(2vh, 2vw);
 }
-#app {
+#app, .toast-notification {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.toasted .primary, .toasted.toasted-primary {
+  font-size: inherit;
+  padding: 0.5rem 1.5rem;
+  min-height: initial;
 }
 #stacks-container {
   display: flex;

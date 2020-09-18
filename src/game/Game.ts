@@ -76,7 +76,7 @@ export default class Game {
   public positionCardInHand(card: Card, recipient: Card | null) {
     const isReorder = this.hand.indexOf(card) >= 0;
     if (this.hand.length >= HAND_MAX && !isReorder) {
-      this.onMessage.notify([NotifyType.Error, `You cannot have more than ${HAND_MAX} cards in your hand.`]);
+      this.onMessage.notify([NotifyType.Error, `You cannot draw if your hard contains ${HAND_MAX} or more cards.`]);
       return;
     }
     this.takeCard(card);
