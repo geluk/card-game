@@ -26,8 +26,8 @@ export default class CardBuilder {
 
   private static getSuit(cardId: CardId): string {
     switch (cardId) {
-      case CardId.One: return 'C';
-      case CardId.Two: return 'D';
+      case CardId.One: return 'D';
+      case CardId.Two: return 'C';
       case CardId.Three: return 'H';
       case CardId.Four: return 'S';
       // Required to satisfy JSlint.
