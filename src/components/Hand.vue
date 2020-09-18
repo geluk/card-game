@@ -33,7 +33,7 @@ import Card from './Card.vue';
 export default Vue.extend({
   name: 'Hand',
   props: {
-    cards: { type: Array },
+    cards: Array,
   },
   data() {
     return {

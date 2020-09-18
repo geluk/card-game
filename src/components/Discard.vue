@@ -4,8 +4,8 @@
     :class="{highlight: highlight}"
     class="drop-zone"
     @dragover.prevent
-    @dragenter.prevent="onDragEnter"
-    @dragleave.prevent="onDragLeave"
+    @dragenter="onDragEnter"
+    @dragleave="onDragLeave"
     @drop.prevent="onDrop">
       <div><p>Drag cards here to discard them.</p></div>
       <ReversedCard v-for="card in cards" v-bind:key="card.uniqueId" />
@@ -19,7 +19,7 @@ import ReversedCard from './ReversedCard.vue';
 export default Vue.extend({
   name: 'Discard',
   props: {
-    cards: { type: Array },
+    cards: Array,
   },
   data() {
     return {

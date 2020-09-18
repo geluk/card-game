@@ -27,8 +27,8 @@ import Card from './Card.vue';
 export default Vue.extend({
   name: 'Table',
   props: {
-    assemblyArea: { type: CardSet },
-    completedSets: { type: Array },
+    assemblyArea: CardSet,
+    completedSets: Array,
   },
   data() {
     return {

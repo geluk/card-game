@@ -20,7 +20,7 @@ import ReversedCard from './ReversedCard.vue';
 export default Vue.extend({
   name: 'Stack',
   props: {
-    cards: { type: Array },
+    cards: Array,
   },
   methods: {
     onClick(evt: Event, card: GameCard) {

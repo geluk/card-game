@@ -20,15 +20,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Game from './game/Game';
+import { Card } from './game/Card';
+import NotifyType from './game/NotifyType';
+import GameOutcome from './game/GameOutcome';
 import Hand from './components/Hand.vue';
 import Stack from './components/Stack.vue';
 import Discard from './components/Discard.vue';
 import Table from './components/Table.vue';
 import GameBar from './components/GameBar.vue';
-import Game from './game/Game';
-import { Card } from './game/Card';
-import NotifyType from './game/NotifyType';
-import GameOutcome from './game/GameOutcome';
 
 export default Vue.extend({
   name: 'App',

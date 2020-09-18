@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Card } from '../game/Card';
+import { Card } from '@/game/Card';
 
 export default Vue.extend({
   name: 'ReversedCard',
