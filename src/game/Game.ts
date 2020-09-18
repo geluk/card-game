@@ -24,6 +24,8 @@ export default class Game {
 
   score = 0;
 
+  shufflesRemaining = 1;
+
   finished = false;
 
   onMessage: Observable<[NotifyType, string]>;
@@ -98,6 +100,17 @@ export default class Game {
     // Required to satisfy the compiler,
     // as the above loop is not guaranteed to return.
     throw new Error(`Unreachable (card with ID ${uniqueId} does not exist)`);
+  }
+
+  public shuffle() {
+    if (this.shufflesRemaining < 1) {
+      this.onMessage.notify([NotifyType.Error, 'You cannot shuffle again this game.']);
+      return;
+    }
+    this.shufflesRemaining -= 1;
+    console.log(this.stack[0].url);
+    this.stack.push(this.stack.shift()!);
+    console.log(this.stack[0].url);
   }
 
   private validateDraw(card: Card): boolean {

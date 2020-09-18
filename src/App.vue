@@ -15,6 +15,12 @@
         Score: {{ totalScore + game.score }}
       </div>
       <div>
+        Shuffles remaining: {{ game.shufflesRemaining }}
+      </div>
+      <div>
+        <button v-text="'shuffle'" @click="onShuffleClick"></button>
+      </div>
+      <div>
         <button v-text="'new game'" @click="onNewGameClick"></button>
       </div>
     </div>
@@ -61,6 +67,9 @@ export default Vue.extend({
     onTableCardDrop(evt: Event, cardId: string) {
       const card = this.game.findCard(cardId);
       this.game.moveToAssemblyArea(card);
+    },
+    onShuffleClick() {
+      this.game.shuffle();
     },
     onNewGameClick() {
       this.startNewGame();
