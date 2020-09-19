@@ -7,6 +7,7 @@ import Observable from './Observable';
 
 const HAND_MAX = 7;
 const SETS_PER_GAME = 5;
+const WIN_BONUS = 25;
 
 export default class Game {
   stack: Card[];
@@ -131,7 +132,7 @@ export default class Game {
     const gameState = this.getGameState();
     if (gameState !== null) {
       if (!this.finished && gameState === GameOutcome.Win) {
-        this.score += 20;
+        this.score += WIN_BONUS;
       }
       this.finished = true;
       this.onFinished.notify(gameState);
