@@ -20,14 +20,14 @@
 </template>
 
 <script lang="ts">
-import CardSet from '@/game/CardSet';
+import Quartet from '@/game/Quartet';
 import Vue from 'vue';
 import Card from './Card.vue';
 
 export default Vue.extend({
   name: 'Table',
   props: {
-    assemblyArea: CardSet,
+    assemblyArea: Quartet,
     completedSets: Array,
   },
   data() {

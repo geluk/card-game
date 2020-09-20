@@ -1,6 +1,6 @@
 import { Card, CARDS_PER_SET } from './Card';
 
-export default class CardSet {
+export default class Quartet {
   cards: Card[];
 
   public constructor() {

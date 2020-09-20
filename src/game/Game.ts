@@ -1,5 +1,5 @@
 import { Card, CARDS_PER_SET } from './Card';
-import CardSet from './CardSet';
+import Quartet from './Quartet';
 import CardBuilder from './CardBuilder';
 import NotifyType from './NotifyType';
 import GameOutcome from './GameOutcome';
@@ -16,9 +16,9 @@ export default class Game {
 
   discard: Card[] = [];
 
-  table: CardSet[] = [];
+  table: Quartet[] = [];
 
-  assemblyArea: CardSet;
+  assemblyArea: Quartet;
 
   score = 0;
 
@@ -35,7 +35,7 @@ export default class Game {
 
     this.hand = cards.splice(0, HAND_MAX);
     this.stack = cards;
-    this.assemblyArea = new CardSet();
+    this.assemblyArea = new Quartet();
     this.onFinished = new Observable();
     this.onMessage = new Observable();
   }
@@ -68,7 +68,7 @@ export default class Game {
     }
     if (this.assemblyArea.isFullSet()) {
       this.table.push(this.assemblyArea);
-      this.assemblyArea = new CardSet();
+      this.assemblyArea = new Quartet();
       this.score += 5;
     }
     this.checkGameState();
