@@ -111,11 +111,10 @@ button {
   background-color: #444444dd;
   color: #eee;
   position: absolute;
-  left: 20rem;
-  right: 20rem;
-  top: 10rem;
-  bottom: 10rem;
-  padding: 0 10rem;
+  left: 20vw;
+  right: 20vw;
+  top: 8rem;
+  padding: 0 1rem 2rem 1rem;
   border-radius: 0.25rem;
 }
 .text-area {
