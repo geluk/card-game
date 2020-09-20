@@ -1,11 +1,12 @@
 # card-game
+Uitwerking opdracht iteratie 1 (Kwartetspel), door Johan Geluk.
 
 ## Demo
 [https://kwartet.geluk.io](https://kwartet.geluk.io)
 
 ## Project setup
 ```
-npm install
+npm ci
 ```
 
 ### Compiles and hot-reloads for development
